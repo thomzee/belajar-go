@@ -1,0 +1,160 @@
+definitions:
+  controllers.Meta:
+    properties:
+      code:
+        type: integer
+      error:
+        type: string
+      errors:
+        additionalProperties:
+          type: string
+        type: object
+      message:
+        type: string
+    type: object
+  controllers.Response:
+    properties:
+      data:
+        type: object
+      meta:
+        $ref: '#/definitions/controllers.Meta'
+    type: object
+  dto.ItemDTO:
+    properties:
+      code:
+        type: string
+      desc:
+        type: string
+      qty:
+        type: integer
+    type: object
+  dto.OrderDTO:
+    properties:
+      customer_name:
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/dto.ItemDTO'
+        type: array
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/order/create:
+    post:
+      consumes:
+      - application/json
+      - application/x-www-form-urlencoded
+      description: Create new resource to be saved to database
+      operationId: order-create
+      parameters:
+      - description: request body json
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/dto.OrderDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.Response'
+      summary: Create new resource to be saved to database
+  /api/v1/order/delete/{id}:
+    delete:
+      description: Delete existing resource
+      operationId: order-delete
+      parameters:
+      - description: Resource primary key
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.Response'
+      summary: Delete existing resource
+  /api/v1/order/edit/{id}:
+    patch:
+      consumes:
+      - application/json
+      - application/x-www-form-urlencoded
+      description: Edit existing resource
+      operationId: order-edit
+      parameters:
+      - description: request body json
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/dto.OrderDTO'
+      - description: Resource primary key
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.Response'
+      summary: Edit existing resource
+  /api/v1/order/index:
+    get:
+      description: Index list of resources
+      operationId: order-index
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.Response'
+      summary: Index list of resources
+  /api/v1/order/show/{id}:
+    get:
+      description: Show detail of resource
+      operationId: order-show
+      parameters:
+      - description: Resource primary key
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/controllers.Response'
+      summary: Show detail of resource
+swagger: "2.0"
